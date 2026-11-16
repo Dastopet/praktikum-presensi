@@ -1,8 +1,8 @@
 
-package Latihan;
+package model;
 
 import model.BaseEntity;
-import exception.ValidationException;
+import exeption.ValidationException;
 
 /** MODUL MASTER: Mahasiswa. Pemilik: Ninda Syahfutri. */
 public class Mahasiswa extends BaseEntity {

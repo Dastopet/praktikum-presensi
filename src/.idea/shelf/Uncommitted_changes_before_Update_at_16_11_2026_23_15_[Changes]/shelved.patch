@@ -1,0 +1,422 @@
+Index: konsol/menupresensi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/konsol/menupresensi.java b/konsol/menupresensi.java
+new file mode 100644
+--- /dev/null	(date 1794843280554)
++++ b/konsol/menupresensi.java	(date 1794843280554)
+@@ -0,0 +1,122 @@
++    package konsol;
++
++    import exeption.AppException;
++    import model.Presensi;
++    import java.util.List;
++    import java.util.Scanner;
++
++    public class menupresensi {
++        private static final Scanner MASUK = new Scanner(System.in);
++        private static final presensikonsol DATA = new presensikonsol();
++
++        public static void main(String[] args) {
++            boolean jalan = true;
++            while (jalan) {
++                System.out.println();
++                System.out.println("=== Presensi Praktikum — Data Kehadiran ===");
++                System.out.println("1. Tambah Presensi");
++                System.out.println("2. Tampilkan Semua");
++                System.out.println("3. Cari berdasarkan ID");
++                System.out.println("4. Ubah Status Presensi");
++                System.out.println("5. Hapus Presensi");
++                System.out.println("0. Keluar");
++                System.out.print("Pilihan: ");
++                String pilihan = MASUK.nextLine().trim();
++                try {
++                    if ("1".equals(pilihan)) {
++                        tambah();
++                    } else if ("2".equals(pilihan)) {
++                        tampilkanSemua();
++                    } else if ("3".equals(pilihan)) {
++                        cari();
++                    } else if ("4".equals(pilihan)) {
++                        ubah();
++                    } else if ("5".equals(pilihan)) {
++                        hapus();
++                    } else if ("0".equals(pilihan)) {
++                        jalan = false;
++                    } else {
++                        System.out.println("Pilihan tidak dikenal.");
++                    }
++                } catch (AppException e) {
++                    System.out.println(e.pesanPengguna());
++                } catch (NumberFormatException e) {
++                    System.out.println("Input angka tidak valid.");
++                }
++            }
++            System.out.println("Selesai.");
++        }
++
++        private static void tambah() throws AppException {
++            System.out.print("ID Pertemuan : ");
++            int idPertemuan = Integer.parseInt(MASUK.nextLine().trim());
++            System.out.print("ID Mahasiswa : ");
++            int idMahasiswa = Integer.parseInt(MASUK.nextLine().trim());
++            System.out.print("Status (Hadir/Izin/Sakit/Alpha): ");
++            String status = MASUK.nextLine().trim();
++
++            Presensi p = new Presensi(idPertemuan, idMahasiswa, status);
++            DATA.simpan(p);
++            System.out.println("Tersimpan dengan ID: " + p.getId());
++        }
++
++        private static void tampilkanSemua() throws AppException {
++            List<Presensi> daftar = DATA.ambilSemua();
++            System.out.println("Total data: " + daftar.size());
++            for (Presensi p : daftar) {
++                System.out.println("ID: " + p.getId()
++                        + " | Pertemuan ID: " + p.getIdPertemuan()
++                        + " | Mahasiswa ID: " + p.getIdMahasiswa()
++                        + " | Status: " + p.getStatus());
++            }
++        }
++
++        private static void cari() throws AppException {
++            System.out.print("Masukkan ID Presensi: ");
++            int id = Integer.parseInt(MASUK.nextLine().trim());
++            Presensi p = DATA.cariId(id);
++            if (p != null) {
++                System.out.println("Ditemukan -> Pertemuan ID: " + p.getIdPertemuan()
++                        + ", Mahasiswa ID: " + p.getIdMahasiswa()
++                        + ", Status: " + p.getStatus());
++            } else {
++                System.out.println("Data presensi tidak ditemukan.");
++            }
++        }
++
++        private static void ubah() throws AppException {
++            System.out.print("Masukkan ID Presensi yang diubah: ");
++            int id = Integer.parseInt(MASUK.nextLine().trim());
++            Presensi lama = DATA.cariId(id);
++            if (lama == null) {
++                System.out.println("Data tidak ditemukan.");
++                return;
++            }
++            System.out.print("ID Pertemuan baru (" + lama.getIdPertemuan() + "): ");
++            int idPertemuan = Integer.parseInt(MASUK.nextLine().trim());
++            System.out.print("ID Mahasiswa baru (" + lama.getIdMahasiswa() + "): ");
++            int idMahasiswa = Integer.parseInt(MASUK.nextLine().trim());
++            System.out.print("Status baru (" + lama.getStatus() + "): ");
++            String status = MASUK.nextLine().trim();
++
++            lama.setIdPertemuan(idPertemuan);
++            lama.setIdMahasiswa(idMahasiswa);
++            lama.setStatus(status);
++
++            if (DATA.ubah(lama)) {
++                System.out.println("Satu baris berhasil diubah.");
++            } else {
++                System.out.println("Tidak ada baris yang berubah.");
++            }
++        }
++
++        private static void hapus() throws AppException {
++            System.out.print("Masukkan ID Presensi yang dihapus: ");
++            int id = Integer.parseInt(MASUK.nextLine().trim());
++            if (DATA.hapus(id)) {
++                System.out.println("Satu baris berhasil dihapus.");
++            } else {
++                System.out.println("Data tidak ditemukan atau gagal dihapus.");
++            }
++        }
++    }
+\ No newline at end of file
+Index: db/koneksi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/db/koneksi.java b/db/koneksi.java
+new file mode 100644
+--- /dev/null	(date 1794844760432)
++++ b/db/koneksi.java	(date 1794844760432)
+@@ -0,0 +1,24 @@
++package db;
++
++import exeption.DataAccessException;
++import java.sql.Connection;
++import java.sql.DriverManager;
++import java.sql.SQLException;
++
++public final class koneksi {
++    private static final String URL = "jdbc:mysql://localhost:3306/db_presensi"
++            + "?useSSL=false&serverTimezone=Asia/Jakarta";
++    private static final String PENGGUNA = "root";
++    private static final String SANDI = "";
++
++    private koneksi() {
++    }
++
++    public static Connection buka() throws DataAccessException {
++        try {
++            return DriverManager.getConnection(URL, PENGGUNA, SANDI);
++        } catch (SQLException e) {
++            throw new DataAccessException("koneksi ke basis data gagal dibuka", e);
++        }
++    }
++}
+\ No newline at end of file
+Index: model/Pertemuan.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model;\r\n\r\nimport exception.ValidationException;\r\n\r\npublic class Pertemuan extends BaseEntity {\r\n    private String nomor;\r\n    private String tanggal;\r\n    private String topik;\r\n    private int matakuliahId;\r\n    public Pertemuan() {\r\n    }\r\n\r\n    public Pertemuan(String nomor, String tanggal, String topik, int matakuliahId) {\r\n        this.nomor = nomor;\r\n        this.tanggal = tanggal;\r\n        this.topik = topik;\r\n        this.matakuliahId = matakuliahId;\r\n    }\r\n\r\n    public String getNomor() { return nomor; }\r\n    public void setNomor(String nomor) { this.nomor = nomor; }\r\n\r\n    public String getTanggal() { return tanggal; }\r\n    public void setTanggal(String tanggal) { this.tanggal = tanggal; }\r\n\r\n    public String getTopik() { return topik; }\r\n    public void setTopik(String topik) { this.topik = topik; }\r\n\r\n    public int getMatakuliahId() { return matakuliahId; }\r\n    public void setMatakuliahId(int matakuliahId) { this.matakuliahId = matakuliahId; }\r\n\r\n    @Override\r\n    public void validasi() throws ValidationException {\r\n        if (nomor == null || nomor.trim().isEmpty()) {\r\n            throw new ValidationException(\"Nomor Pertemuan\", \"tidak boleh kosong\");\r\n        }\r\n        if (!nomor.matches(\"\\\\d+\")) {\r\n            throw new ValidationException(\"Nomor Pertemuan\", \"harus berupa angka\");\r\n        }\r\n\r\n        if (tanggal == null || tanggal.trim().isEmpty()) {\r\n            throw new ValidationException(\"Tanggal\", \"tidak boleh kosong\");\r\n        }\r\n\r\n        if (topik == null || topik.trim().isEmpty()) {\r\n            throw new ValidationException(\"Topik Pertemuan\", \"tidak boleh kosong\");\r\n        }\r\n        if (topik.trim().length() < 5) {\r\n            throw new ValidationException(\"Topik Pertemuan\", \"minimal harus 5 karakter\");\r\n        }\r\n\r\n        if (matakuliahId <= 0) {\r\n            throw new ValidationException(\"ID Matakuliah\", \"harus merujuk pada ID master yang sah\");\r\n        }\r\n    }\r\n    @Override\r\n    public String label() {\r\n        return \"Pertemuan \" + nomor + \": \" + topik;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/Pertemuan.java b/model/Pertemuan.java
+--- a/model/Pertemuan.java	(revision dd7b7f83b9ac7bf464d95cffc6fcff67d319f730)
++++ b/model/Pertemuan.java	(date 1794844776370)
+@@ -1,6 +1,6 @@
+ package model;
+ 
+-import exception.ValidationException;
++import exeption.ValidationException;
+ 
+ public class Pertemuan extends BaseEntity {
+     private String nomor;
+Index: model/MataKuliah.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model;\r\n\r\n\r\nimport exception.ValidationException;\r\n// MODUL MASTER: mataKuliah. Pemilik: Vixma Marlleandha.\r\npublic class MataKuliah extends BaseEntity {\r\n    private String Kode;\r\n    private String Nama;\r\n\r\n\r\n\r\n    public MataKuliah() {\r\n    }\r\n    public MataKuliah(String Kode, String Nama) {\r\n        this.Kode = Kode;\r\n        this.Nama = Nama;\r\n\r\n    }\r\n    public String getKode() { return Kode; }\r\n    public void setKode(String Kode) { this.Kode = Kode; }\r\n    public String getNama() { return Nama; }\r\n    public void setNama(String Nama) { this.Nama = Nama; }\r\n\r\n\r\n    @Override\r\n    public void validasi() throws ValidationException {\r\n        if (Kode == null || Kode.trim().isEmpty()) {\r\n            throw new ValidationException(\"kode\", \"tidak boleh kosong\");\r\n        }\r\n\r\n        if (Nama == null || Nama.trim().isEmpty()) {\r\n            throw new ValidationException(\"Nama\", \"tidak boleh kosong\");\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public String label() {\r\n        return Nama + \" (\" + Kode + \")\";\r\n    }\r\n    }\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/MataKuliah.java b/model/MataKuliah.java
+--- a/model/MataKuliah.java	(revision dd7b7f83b9ac7bf464d95cffc6fcff67d319f730)
++++ b/model/MataKuliah.java	(date 1794844791810)
+@@ -1,7 +1,7 @@
+ package model;
+ 
+ 
+-import exception.ValidationException;
++import exeption.ValidationException;
+ // MODUL MASTER: mataKuliah. Pemilik: Vixma Marlleandha.
+ public class MataKuliah extends BaseEntity {
+     private String Kode;
+Index: model/Presensi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package model;\r\n\r\nimport exeption.ValidationException;\r\npublic class Penumpang extends BaseEntity {\r\n    private String nik;\r\n    private String nama;\r\n    private String telepon;\r\n    private String alamat;\r\n\r\n    public Penumpang() {\r\n\r\n    }\r\n\r\n    public Penumpang(String nik, String nama, String telepon, String alamat) {\r\n        this.nik = nik;\r\n        this.nama = nama;\r\n        this.telepon = telepon;\r\n        this.alamat = alamat;\r\n    }\r\n\r\n    public String getNik() {\r\n        return nik;\r\n    }\r\n\r\n    public void setNik(String nik) {\r\n        this.nik = nik;\r\n    }\r\n\r\n    public String getNama() {\r\n        return nama;\r\n    }\r\n\r\n    public void setNama(String nama) {\r\n        this.nama = nama;\r\n    }\r\n\r\n    public String getTelepon() {\r\n        return telepon;\r\n    }\r\n\r\n    public void setTelepon(String telepon) {\r\n        this.telepon = telepon;\r\n    }\r\n\r\n    public String getAlamat() {\r\n        return alamat;\r\n    }\r\n\r\n    public void setAlamat(String alamat) {\r\n        this.alamat = alamat;\r\n    }\r\n\r\n    @Override\r\n    public void validasi() throws ValidationException {\r\n\r\n        if (nik == null || nik.trim().isEmpty()) {\r\n            throw new ValidationException(\"NIK\", \"tidak boleh kosong\");\r\n        }\r\n        if (!nik.matches(\"\\\\d{16}\")) {\r\n            throw new ValidationException(\"NIK\", \"harus 16 angka\");\r\n        }\r\n        if (nama == null || nama.trim().isEmpty()) {\r\n            throw new ValidationException(\"nama\", \"tidak boleh kosong\");\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public String label() {\r\n        return nama + \" (\" + nik + \")\";\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/model/Presensi.java b/model/Presensi.java
+--- a/model/Presensi.java	(revision dd7b7f83b9ac7bf464d95cffc6fcff67d319f730)
++++ b/model/Presensi.java	(date 1794845145749)
+@@ -1,71 +1,45 @@
+ package model;
+ 
+ import exeption.ValidationException;
+-public class Penumpang extends BaseEntity {
+-    private String nik;
+-    private String nama;
+-    private String telepon;
+-    private String alamat;
+-
+-    public Penumpang() {
+-
+-    }
+-
+-    public Penumpang(String nik, String nama, String telepon, String alamat) {
+-        this.nik = nik;
+-        this.nama = nama;
+-        this.telepon = telepon;
+-        this.alamat = alamat;
+-    }
+ 
+-    public String getNik() {
+-        return nik;
+-    }
++public class Presensi extends BaseEntity {
++    private int idPertemuan;
++    private int idMahasiswa;
++    private String status;
+ 
+-    public void setNik(String nik) {
+-        this.nik = nik;
++    public Presensi() {
+     }
+ 
+-    public String getNama() {
+-        return nama;
++    public Presensi(int idPertemuan, int idMahasiswa, String status) {
++        this.idPertemuan = idPertemuan;
++        this.idMahasiswa = idMahasiswa;
++        this.status = status;
+     }
+ 
+-    public void setNama(String nama) {
+-        this.nama = nama;
+-    }
++    public int getIdPertemuan() { return idPertemuan; }
++    public void setIdPertemuan(int idPertemuan) { this.idPertemuan = idPertemuan; }
+ 
+-    public String getTelepon() {
+-        return telepon;
+-    }
++    public int getIdMahasiswa() { return idMahasiswa; }
++    public void setIdMahasiswa(int idMahasiswa) { this.idMahasiswa = idMahasiswa; }
+ 
+-    public void setTelepon(String telepon) {
+-        this.telepon = telepon;
+-    }
+-
+-    public String getAlamat() {
+-        return alamat;
+-    }
+-
+-    public void setAlamat(String alamat) {
+-        this.alamat = alamat;
+-    }
+-
+-    @Override
+-    public void validasi() throws ValidationException {
+-
+-        if (nik == null || nik.trim().isEmpty()) {
+-            throw new ValidationException("NIK", "tidak boleh kosong");
+-        }
+-        if (!nik.matches("\\d{16}")) {
+-            throw new ValidationException("NIK", "harus 16 angka");
+-        }
+-        if (nama == null || nama.trim().isEmpty()) {
+-            throw new ValidationException("nama", "tidak boleh kosong");
+-        }
+-    }
++    public String getStatus() { return status; }
++    public void setStatus(String status) { this.status = status; }
+ 
+     @Override
+     public String label() {
+-        return nama + " (" + nik + ")";
++        return "Pertemuan ID: " + idPertemuan + " | Mahasiswa ID: " + idMahasiswa + " (" + status + ")";
++    }
++
++    @Override
++    public void validasi() throws ValidationException {
++        if (idPertemuan <= 0) {
++            throw new ValidationException("ID Pertemuan", "harus diisi dan valid");
++        }
++        if (idMahasiswa <= 0) {
++            throw new ValidationException("ID Mahasiswa", "harus diisi dan valid");
++        }
++        if (status == null || status.trim().isEmpty()) {
++            throw new ValidationException("Status", "tidak boleh kosong");
++        }
+     }
+ }
+\ No newline at end of file
+Index: konsol/presensikonsol.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/konsol/presensikonsol.java b/konsol/presensikonsol.java
+new file mode 100644
+--- /dev/null	(date 1794844760453)
++++ b/konsol/presensikonsol.java	(date 1794844760453)
+@@ -0,0 +1,94 @@
++package konsol;
++
++import db.koneksi;
++import exeption.DataAccessException;
++import exeption.ValidationException;
++import model.Presensi;
++import java.sql.*;
++import java.util.ArrayList;
++import java.util.List;
++
++public class presensikonsol {
++
++    public void simpan(Presensi p) throws ValidationException, DataAccessException {
++        p.validasi();
++        String sql = "INSERT INTO presensi (id_pertemuan, id_mahasiswa, status) VALUES (?, ?, ?)";
++        try (Connection c = koneksi.buka();
++             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
++            ps.setInt(1, p.getIdPertemuan());
++            ps.setInt(2, p.getIdMahasiswa());
++            ps.setString(3, p.getStatus());
++            ps.executeUpdate();
++            try (ResultSet kunci = ps.getGeneratedKeys()) {
++                if (kunci.next()) {
++                    p.setId(kunci.getInt(1));
++                }
++            }
++        } catch (SQLException e) {
++            throw new DataAccessException("gagal menyimpan data presensi", e);
++        }
++    }
++
++    public List<Presensi> ambilSemua() throws DataAccessException {
++        String sql = "SELECT id, id_pertemuan, id_mahasiswa, status FROM presensi ORDER BY id";
++        List<Presensi> hasil = new ArrayList<Presensi>();
++        try (Connection c = koneksi.buka();
++             PreparedStatement ps = c.prepareStatement(sql);
++             ResultSet r = ps.executeQuery()) {
++            while (r.next()) {
++                hasil.add(dariBaris(r));
++            }
++        } catch (SQLException e) {
++            throw new DataAccessException("gagal membaca daftar presensi", e);
++        }
++        return hasil;
++    }
++
++    public Presensi cariId(int id) throws DataAccessException {
++        String sql = "SELECT id, id_pertemuan, id_mahasiswa, status FROM presensi WHERE id = ?";
++        try (Connection c = koneksi.buka();
++             PreparedStatement ps = c.prepareStatement(sql)) {
++            ps.setInt(1, id);
++            try (ResultSet r = ps.executeQuery()) {
++                return r.next() ? dariBaris(r) : null;
++            }
++        } catch (SQLException e) {
++            throw new DataAccessException("gagal mencari data presensi", e);
++        }
++    }
++
++    public boolean ubah(Presensi p) throws ValidationException, DataAccessException {
++        p.validasi();
++        String sql = "UPDATE presensi SET id_pertemuan = ?, id_mahasiswa = ?, status = ? WHERE id = ?";
++        try (Connection c = koneksi.buka();
++             PreparedStatement ps = c.prepareStatement(sql)) {
++            ps.setInt(1, p.getIdPertemuan());
++            ps.setInt(2, p.getIdMahasiswa());
++            ps.setString(3, p.getStatus());
++            ps.setInt(4, p.getId());
++            return ps.executeUpdate() == 1;
++        } catch (SQLException e) {
++            throw new DataAccessException("gagal mengubah data presensi", e);
++        }
++    }
++
++    public boolean hapus(int id) throws DataAccessException {
++        String sql = "DELETE FROM presensi WHERE id = ?";
++        try (Connection c = koneksi.buka();
++             PreparedStatement ps = c.prepareStatement(sql)) {
++            ps.setInt(1, id);
++            return ps.executeUpdate() == 1;
++        } catch (SQLException e) {
++            throw new DataAccessException("gagal menghapus data presensi", e);
++        }
++    }
++
++    private Presensi dariBaris(ResultSet r) throws SQLException {
++        Presensi p = new Presensi();
++        p.setId(r.getInt("id"));
++        p.setIdPertemuan(r.getInt("id_pertemuan"));
++        p.setIdMahasiswa(r.getInt("id_mahasiswa"));
++        p.setStatus(r.getString("status"));
++        return p;
++    }
++}
+\ No newline at end of file

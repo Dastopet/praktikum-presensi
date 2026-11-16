@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8db49cba-7958-4e60-8ce1-e19d8ed2486b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_11_2026_23_15_[Changes]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/praktikum-presensi/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Dastopet&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Dastopet/praktikum-presensi.git&quot;,
+    &quot;accountId&quot;: &quot;24762611-0ac3-4b41-ab98-9c61110fae4d&quot;
+  }
+}</component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000000086179985" />
+      <entry key="MS500" value="1.0243826712554283" />
+      <entry key="S2" value="1.3951575833849985" />
+      <entry key="S5" value="1.6897760775544115" />
+      <entry key="S10" value="1.8305275962937468" />
+      <entry key="S30" value="1.9425286402444546" />
+      <entry key="S60" value="2.08850012210395" />
+      <entry key="M2" value="3.0097574195321704" />
+      <entry key="M5" value="5.965657776205099" />
+      <entry key="M10" value="8.2876774610343" />
+      <entry key="M15" value="9.336876396756553" />
+      <entry key="M30" value="10.564091919295842" />
+      <entry key="H1" value="11.253843591870675" />
+      <entry key="H2" value="11.619587765869468" />
+      <entry key="H4" value="11.807923687263111" />
+      <entry key="D1" value="11.967724357484778" />
+      <entry key="W1" value="11.995382713172363" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="2.366576133744088E-267" />
+      <entry key="S2" value="2.20561709974351E-67" />
+      <entry key="S5" value="2.1747635631375068E-27" />
+      <entry key="S10" value="4.663436032731129E-14" />
+      <entry key="S30" value="3.599443337985077E-5" />
+      <entry key="S60" value="0.005999536097053739" />
+      <entry key="M2" value="0.07745667238562302" />
+      <entry key="M5" value="0.35943762347685965" />
+      <entry key="M10" value="0.5995311697291975" />
+      <entry key="M15" value="0.7110080394543433" />
+      <entry key="M30" value="0.8432129265223248" />
+      <entry key="H1" value="0.9182662612349018" />
+      <entry key="H2" value="0.9582621046639076" />
+      <entry key="H4" value="0.9789086293745232" />
+      <entry key="D1" value="0.9964534752652833" />
+      <entry key="W1" value="0.9994925818426684" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.5904963364005238" />
+      <entry key="MS500" value="0.9224385627720033" />
+      <entry key="S2" value="1.361029626455907" />
+      <entry key="S5" value="1.673581946953959" />
+      <entry key="S10" value="1.821826634289035" />
+      <entry key="S30" value="1.9394836834768991" />
+      <entry key="S60" value="2.091671924593113" />
+      <entry key="M2" value="3.0795990923941576" />
+      <entry key="M5" value="6.313352284906895" />
+      <entry key="M10" value="8.877833753642275" />
+      <entry key="M15" value="10.040571838804457" />
+      <entry key="M30" value="11.403025057690694" />
+      <entry key="H1" value="12.169794356332595" />
+      <entry key="H2" value="12.576645515824369" />
+      <entry key="H4" value="12.786218133380522" />
+      <entry key="D1" value="12.964073770534783" />
+      <entry key="W1" value="12.994860386984643" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3MC8uiaqEughqbpcdVlChL3JkUj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.menupresensi.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/lenovo/Documents/GitHub/praktikum-presensi/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "to.speed.mode.migration.done": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="menupresensi" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="konsol.menupresensi" />
+      <module name="praktikum-presensi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="konsol.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.menupresensi" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10315.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8db49cba-7958-4e60-8ce1-e19d8ed2486b" name="Changes" comment="" />
+      <created>1794843414689</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1794843414689</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
