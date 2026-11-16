@@ -1,6 +1,6 @@
 package model;
 
-import exception.ValidationException;
+import exeption.ValidationException;
 
 public class Pertemuan extends BaseEntity {
     private String nomor;

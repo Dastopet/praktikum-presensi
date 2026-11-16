@@ -1,7 +1,7 @@
 package model;
 
 
-import exception.ValidationException;
+import exeption.ValidationException;
 // MODUL MASTER: mataKuliah. Pemilik: Vixma Marlleandha.
 public class MataKuliah extends BaseEntity {
     private String Kode;
