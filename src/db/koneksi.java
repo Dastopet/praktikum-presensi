@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public final class koneksi {
-    private static final String URL = "jdbc:mysql://localhost:3306/db_presensi"
+    private static final String URL = "jdbc:mysql://localhost:3306/db_pptm4"
             + "?useSSL=false&serverTimezone=Asia/Jakarta";
     private static final String PENGGUNA = "root";
     private static final String SANDI = "";
